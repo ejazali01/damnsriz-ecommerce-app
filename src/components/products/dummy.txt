@@ -1,0 +1,11 @@
+   const accountSid = 'AC4fa2b173684cf7d30827430cee1d2885';
+    const authToken = '[AuthToken]';
+    const client = require('twilio')(accountSid, authToken);
+
+    client.messages
+        .create({
+            body: 'Hi this is testing message from  twilio',
+            to: '+18777804236'
+        })
+        .then(message => console.log(message.sid))
+        .done();
