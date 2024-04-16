@@ -14,7 +14,7 @@ const ProfileDropdown = () => {
           </h3>
         </div>
         <Link
-          to=""
+          to="/login"
           className="py-2 px-6 border w-full md:w-3/4  text-purple-500 font-bold hover:border-purple-500"
         >
           LOGIN / SIGNUP

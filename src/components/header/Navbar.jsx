@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import "./navbar.css";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import ProductDropdown from "./ProductDropdown";
 import { FaRegUser } from "react-icons/fa";
@@ -7,13 +6,15 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoBagOutline } from "react-icons/io5";
 import SearchBar from "./SearchBar";
 import ProfileDropdown from "./ProfileDropdown";
-import { FaBarsStaggered } from "react-icons/fa6";
+import { IoIosSearch } from "react-icons/io";
+import Badge from "@mui/material/Badge";
+import { styled } from "@mui/material/styles";
 import Drawer from "./Drawer";
+import Test from "../home/Test";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(null);
   const [isOpenProfile, setIsOpenProfile] = useState(null);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Function to handle mouse enter event
   const handleMouseEnter = (menu, profile) => {
@@ -34,41 +35,32 @@ const Navbar = () => {
   // mobile schreen
   // handle dialog
 
-  const handleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-    console.log('toggle');
-  };
+  const StyledBadge = styled(Badge)(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
 
   return (
     <>
-      <header className="sticky top-0 left-0 w-full flex z-50 bg-[#ffff] text-gray-600 body-font  shadow-sm">
+      <header className="sticky top-0 left-0 w-full flex items-center z-50 bg-[#ffff] text-gray-600 body-font  shadow-sm">
         {/* Brand logo */}
         <div className="flex items-center md:px-2 w-full  md:w-2/12 ">
-        <button
-            onClick={handleDrawer}
-            className="md:hidden bg-purple-500 w-16  h-14  px-2  text-xl  cursor-pointer"
-            // className="flex overflow-auto transition-all ease-in-out duration-300"
-            // onClick={() => setIsDrawerOpen(false)}
-          >
-            <Drawer isDrawerOpen={isDrawerOpen} />
-            <FaBarsStaggered
-            onClick={() => setIsDrawerOpen(false)}
-            // onClick={handleDrawer}
-            className="md:hidden  text-white  text-2xl hover:scale-95 cursor-pointer"
-            />
-          </button>
-
+          {/* mobile menu and drawer */}
+          <Drawer />
           <NavLink
             to="/"
-            className="w-full flex p-2 lg:p-0 justify-center lg:justify-start title-font font-medium items-center text-gray-900  md:mb-0"
+            className="w-full flex p-2 lg:p-0 md:justify-center lg:justify-start title-font font-medium items-center text-gray-900  md:mb-0"
           >
-            <span className="ml-3 text-xl">Damnsruz</span>
+            <span className="md:ml-3 ml-1 text-xl">Damnsruz</span>
           </NavLink>
         </div>
 
-          {/* ----------------------------******both*****--------------------------------------- */}
+        {/* ----------------------------******both*****--------------------------------------- */}
         <div className=" container mx-auto  md:flex flex-wrap  flex-col md:flex-row  items-center">
-
           {/* pages */}
           <div className="relative md:w-2/3 hidden  md:flex flex-wrap  flex-col md:flex-row items-center">
             <nav className="md:mr-auto md:ml-4  md:pl-4 md:border-l md:border-gray-400	flex gap-2 flex-wrap items-center text-base justify-center">
@@ -165,15 +157,21 @@ const Navbar = () => {
           {/* ----------------------------***********--------------------------------------- */}
 
           {/* cart wishlist & authentication */}
-          <div className="relative flex items-center md:pl-20 gap-2 font-semibold">
+          <div className="relative mr-4 md:mr-0 flex items-center justify-end md:pl-20 gap-2 font-semibold">
+            <NavLink to="" className="md:hidden ">
+              <IoIosSearch className=" text-2xl font-semibold" />
+            </NavLink>
+
             <NavLink
               onMouseEnter={() => handleMouseEnter(null, "PROFILE")}
               onMouseLeave={handleMouseLeave}
               to="/user-profile"
-              className="mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
+              className=" hidden md:mr-5 p-2 md:flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
             >
               <FaRegUser className="text-xl font-semibold" />
-              <span className="font-normal text-xs">Profile</span>
+              <span className="hidden md:block font-normal text-xs">
+                Profile
+              </span>
               {isOpenProfile === "PROFILE" && (
                 <span
                   className={`absolute  w-1/4 h-1 bottom-0 left-18 bg-purple-500 `}
@@ -183,18 +181,22 @@ const Navbar = () => {
 
             <NavLink
               to="/wishlist"
-              className="mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 "
+              className="md:mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 "
             >
               <FaRegHeart className="text-xl font-semibold" />
-              <span className="font-normal text-xs">Wishlist</span>
+              <span className="hidden md:block font-normal text-xs">
+                Wishlist
+              </span>
             </NavLink>
 
             <NavLink
               to="/cart"
-              className="mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
+              className="md:mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
             >
-              <IoBagOutline className="text-xl font-extrabold text-purple-600" />
-              <span className="font-normal text-xs">Cart</span>
+              <StyledBadge badgeContent={4} color="secondary">
+                <IoBagOutline className="text-xl font-extrabold text-purple-600" />
+              </StyledBadge>
+              <span className="hidden md:block font-normal text-xs">Cart</span>
             </NavLink>
 
             {isOpenProfile && (

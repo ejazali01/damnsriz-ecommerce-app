@@ -11,7 +11,8 @@ import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Layout from "./components/products/Layout";
 import NotFound from "./NotFound";
-import Login from "./components/auth/Login";
+import Login from "./pages/auth/Login";
+
 
 function App() {
   const router = createBrowserRouter(

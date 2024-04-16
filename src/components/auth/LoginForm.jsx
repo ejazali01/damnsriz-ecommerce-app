@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Login = () => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,7 +29,7 @@ const Login = () => {
     <div className="relative w-full min-h-screen bg-sky-100">
       <div className=" hidden lg:block ">
         <div className="absolute   w-1/2 bg-purple-400 h-[600px] left-0 bottom-0 rounded-tr-full  ">
-          <h1 className="font-playFlair text-8xl font-semibold pl-64 mt-20">
+          <h1 className="font-playFlair text-8xl font-semibold pl-60 mt-20">
             Damnsruz .
           </h1>
         </div>
@@ -39,7 +39,7 @@ const Login = () => {
       <div className="absolute md:right-40 min-h-screen flex items-center justify-center bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <img
-            src="../../../public/login/woman-with-shopping-bags-looking-camera.jpg"
+            src="../../../assets/login/woman-with-shopping-bags-looking-camera.jpg"
             alt="woman-with-shopping-bags-looking-camera"
             className="object-fill"
           />
@@ -124,4 +124,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

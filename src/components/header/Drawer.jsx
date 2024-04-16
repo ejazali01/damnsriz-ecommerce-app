@@ -1,77 +1,40 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { RiArrowDropUpLine } from "react-icons/ri";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import React, { useState, useEffect, useRef } from "react";
+import { RiCloseLine } from "react-icons/ri";
+import { FaBarsStaggered } from "react-icons/fa6";
+import DrawerContent from "./mobile/DrawerContent";
 
-const Drawer = ({ isDrawerOpen }) => {
+const Drawer = ({ handleDrawer, isDrawerOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const drawerRef = useRef(null);
 
-  const handleDropdown = () => {
+  // Close drawer when clicking outside of it
+  const handleClickOutside = (event) => {
+    if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  };
 
-  }
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
-      {/* Drawer */}
-      <div
-        className={`fixed inset-y-0 min-h-screen left-0 w-full bg-transparent   shadow-lg transform overflow-auto  transition-transform ease-in-out duration-500 
-        ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}
-        `}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden bg-purple-500 w-16  h-14  px-2  text-xl  cursor-pointer"
       >
-        {/* Drawer Content */}
-        <div className="  bg-white shadow-2xl w-64 h-screen text-left ">
-        <div>
-            <img src="../../../public/drawer/drawer_image.webp" alt="drawer_image" />
-        </div>
+        {isOpen ? (
+          <RiCloseLine className="md:hidden  text-white  text-2xl hover:scale-95 cursor-pointer" />
+        ) : (
+          <FaBarsStaggered className="md:hidden  text-white  text-2xl hover:scale-95 cursor-pointer" />
+        )}
+      </button>
 
-          <ul className="text-sm font-semibold text-gray-600 border-b py-6">
-            <li className="flex justify-between items-center p-2  hover:bg-gray-200">
-              <Link href="#" className="">
-                MEN
-              </Link>
-              <RiArrowDropDownLine className="text-2xl" />
-            </li>
-            <li className="flex justify-between items-center p-2 hover:bg-gray-200">
-              <Link href="#" className=" ">
-                WOMEN
-              </Link>
-              <RiArrowDropDownLine className="text-2xl" />
-            </li>
-            <li
-            onClick={handleDropdown} 
-            className="flex justify-between items-center p-2 hover:bg-gray-200 ">
-              <Link href="#" className="">
-                KIDS
-              </Link>
-              <RiArrowDropDownLine className="text-2xl" />
-            </li>
-            <li 
-            onClick={handleDropdown}
-            className=" flex justify-between items-center p-2 hover:bg-gray-200">
-              <Link href="#" className="">
-                BEAUTY
-              </Link>
-              <RiArrowDropDownLine className="text-2xl" />
-            </li>
-          </ul>
-
-          <div>
-            <ul className="text-sm py-6 ">
-                <li className="p-2 hover:text-gray-800">
-                    <Link href="#" className="">Contact Us</Link>
-                </li>
-
-                <li className="p-2 hover:text-gray-800">
-                    <Link href="#" className="">FAQs</Link>
-                </li>
-
-                <li className="p-2 hover:text-gray-800 ">
-                    <Link href="#" className="">Leagals</Link>
-                </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      {isOpen && <DrawerContent drawerRef={drawerRef} />}
     </>
   );
 };
