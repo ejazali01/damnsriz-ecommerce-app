@@ -12,13 +12,14 @@ import ProductDetails from "./pages/ProductDetails";
 import Layout from "./components/products/Layout";
 import NotFound from "./NotFound";
 import Login from "./pages/auth/Login";
-
+import Signup from "./components/auth/Signup";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<HomeLayout />}>
-        <Route path="/login" element={<Login />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
         <Route path="" element={<Home />} />
         <Route path="products" element={<Layout />}>
           <Route path="" element={<Products />} />

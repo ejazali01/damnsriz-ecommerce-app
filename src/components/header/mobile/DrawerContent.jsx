@@ -19,11 +19,11 @@ const DrawerContent = ({ drawerRef }) => {
       {/* Drawer Content */}
       <div
         ref={drawerRef}
-        className="fixed top-0 left-0 h-screen w-3/4 bg-white shadow-lg transform transition-transform translate-x-0  ease-out duration-700"
+        className="fixed z-30 top-0 left-0 h-screen w-3/4 bg-white shadow-lg transform transition-transform translate-x-0  ease-out duration-700"
       >
         <div>
           <img
-            src="../../../../assets/drawer/drawer_image.webp"
+            src="../../../../drawer/drawer_image.webp"
             alt="drawer_image"
           />
         </div>

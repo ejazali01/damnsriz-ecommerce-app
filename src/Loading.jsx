@@ -4,7 +4,7 @@ const Loading = () => {
   return (
     <>
       <div className="flex justify-center items-center w-full h-svh  ">
-        <img src="../public/loader.svg" alt="loading" />
+        <img src="../loader.svg" alt="loading" />
       </div>
     </>
   );

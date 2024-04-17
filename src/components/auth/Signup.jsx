@@ -1,143 +1,177 @@
 import React, { useState } from "react";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify";
+import { Button, CircularProgress } from "@mui/material";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useMutation } from "react-query";
+import { registerUser } from "../../api/auth/user";
+import { Link } from "react-router-dom";
 
+const initialstate = {
+  fullName: "",
+  username: "",
+  email: "",
+  password: "",
+  confirmPassword:"",
+};
+
+const validationSchema = Yup.object().shape({
+  fullName: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  username: Yup.string()
+    .lowercase()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string().min(5, "Too Short!").required("Required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password"), null], "Passwords must match")
+    .required("Required"),
+});
 
 const Signup = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+  const [formData, setFormData] = useState(initialstate);
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      toast.success("created sucessfully");
+    },
+    onMutate : () => {
+      return <CircularProgress />
+    }
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Validate form fields (e.g., check password match)
-    if (formData.password !== formData.confirmPassword) {
-        toast('Password not match');
-      return;
-    }
-    // Handle form submission (e.g., send data to backend)
-    console.log(formData);
-    // Reset form after submission
-    setFormData({
-      fullName: "",
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
+  const handleSubmit = (values, {setSubmitting ,resetForm }) => {
+    const { fullName, username, email, password } = values;
+    mutation.mutate({fullName, username, email, password})
+    setSubmitting(false);
+    resetForm();
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className=" flex items-center justify-center bg-gray-50 py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-sm w-full ">
+        <img
+          src="../../../login/laughter-in-the-sun.jpg"
+          alt="laughter-in-the-sun"
+          className="object-fill"
+        />
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          <h2 className="pt-3 text-center text-3xl font-extrabold text-gray-900">
             Create an Account
           </h2>
+          {/* className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" */}
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="fullName" className="sr-only">
-                Full Name
-              </label>
-              <input
-                id="fullName"
-                name="fullName"
-                type="text"
-                autoComplete="name"
-                required
-                value={formData.fullName}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Full Name"
-              />
-            </div>
-            <div>
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                required
-                value={formData.username}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Username"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="sr-only">
-                Email address
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="sr-only">
-                Confirm Password
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                required
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm Password"
-              />
-            </div>
+
+        <div className="flex justify-center items-center gap-1 py-2 pb-8">
+          <span>Already have an Account? </span>
+            <Link to="/login" className="text-md  font-semibold px-4 text-indigo-500 hover:text-indigo-700 hover:underline" >Login</Link>
           </div>
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign Up
-            </button>
-          </div>
-        </form>
+
+        <Formik
+          initialValues={initialstate}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {/* Full Name */}
+              <div className="mb-4">
+                <Field
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="Full Name"
+                  className={`appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm
+               
+                `}
+                />
+                <ErrorMessage
+                  name="fullName"
+                  component="p"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Username */}
+              <div className="mb-4">
+                <Field
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
+                <ErrorMessage
+                  name="username"
+                  component="p"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="mb-4">
+                <Field
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
+                <ErrorMessage
+                  name="email"
+                  component="p"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Password */}
+              <div className="mb-4">
+                <Field
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="password"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
+                <ErrorMessage
+                  name="password"
+                  component="p"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Confirm Password */}
+              <div className="mb-4">
+                <Field
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                />
+                <ErrorMessage
+                  name="confirmPassword"
+                  component="p"
+                  className="text-red-600 text-sm mt-1"
+                />
+              </div>
+
+              {/* Submit Button */}
+              <Button
+                type="submit"
+                variant="contained"
+                className="w-full bg-purple-500 text-white rounded-md py-2 hover:bg-purple-700 transition-colors duration-300"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? <CircularProgress /> : "Sign Up"}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );
