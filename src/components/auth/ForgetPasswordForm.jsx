@@ -39,13 +39,14 @@ const ForgetPasswordForm = () => {
 
   return (
     <>
-      <div className="p-4 border shadow-md rounded-lg m-4">
+      <div className="min-h-screen p-4">
+      <div className=" p-4 border shadow-lg rounded-lg ">
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col justify-center items-center gap-4">
-            <h1 className="text-3xl py-2 text-center font-semibold">
+            <h1 className="text-3xl py-2  text-center font-semibold">
               Password assistance
             </h1>
-            <h2>
+            <h2 className="text-gray-600"> 
               Enter the email address associated with your Damsnsruz account.
             </h2>
           </div>
@@ -59,8 +60,8 @@ const ForgetPasswordForm = () => {
               {({ isSubmitting }) => (
                 <Form>
                   <div className="py-4">
-                    <label htmlFor="email" className="text-gray-500">
-                      Username or Email
+                    <label htmlFor="email" className="text-gray-600 p-1 font-semibold">
+                    Email
                     </label>
                     <Field
                       type="email"
@@ -69,7 +70,7 @@ const ForgetPasswordForm = () => {
                       name="email"
                       autoComplete="off"
                       required
-                      className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                      className="appearance-none  rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                     />
                     <ErrorMessage
                       name="email"
@@ -114,11 +115,11 @@ const ForgetPasswordForm = () => {
         <div className="py-4 pt-6">
           <h1 className="text-semibold ">Has your email address changed?</h1>
           <div>
-            <h3 className="text-sm py-2 ">
+            <h3 className="text-sm py-2 text-gray-600 ">
               If you no longer use the e-mail address associated with your
               Damnsruz account, you may contact
               <Link
-                className="text-purple-500 px-2 underline underline-offset-4 hover:text-purple-700 hover:underline"
+                className="text-purple-500 font-semibold px-2 underline underline-offset-4 hover:text-purple-700 hover:underline"
                 to="/help/customers"
               >
                 {" "}
@@ -128,6 +129,7 @@ const ForgetPasswordForm = () => {
             </h3>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

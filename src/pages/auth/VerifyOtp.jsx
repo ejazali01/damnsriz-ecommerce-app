@@ -44,13 +44,14 @@ const VerifyOtp = () => {
 
   return (
     <>
-      <div className="p-4 border shadow-md rounded-lg m-4">
+    <div className="min-h-screen p-4">
+      <div className="  p-4 border shadow-lg rounded-lg ">
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col justify-center items-center gap-4">
             <h1 className="text-3xl py-2 text-center font-semibold">
               Verification required
             </h1>
-            <h2>
+            <h2 className="text-sm text-left text-gray-600">
               To continue, complete this verification step. We've sent an OTP to
               the email <span className="px-2">ejaz84916@gmail.com.</span>{" "}
               Please enter it below to complete verification.
@@ -68,7 +69,7 @@ const VerifyOtp = () => {
                   <div className="py-4">
                     <label
                       htmlFor="otp"
-                      className="text-gray-500 font-semibold"
+                      className="text-gray-600 p-1 font-semibold"
                     >
                       Enter OTP
                     </label>
@@ -128,7 +129,11 @@ const VerifyOtp = () => {
               Resend OTP
             </button>
           </div>
-          <div className="w-full  pt-10 ">
+         
+        </div>
+      </div>
+
+      <div className="w-full  pt-10 ">
             <li
               onClick={() => handleDropdown("help")}
               className="w-2/5 list-none flex items-center hover:text-purple-700 hover:underline underline-offset-4"
@@ -162,14 +167,13 @@ const VerifyOtp = () => {
                 </h2>
 
                 <h2 className="w-full  ">
-                  If that does not work, please try calling us at +91 6206954492
+                  If that does not work, please try calling us at <span className="font-semibold text-md text-black px-2"> +91 6206954492</span>
                   so that we can help you out.
                 </h2>
               </div>
             )}
           </div>
-        </div>
-      </div>
+    </div>
     </>
   );
 };
