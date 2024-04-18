@@ -1,39 +1,64 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { Link, redirect } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
+import { Button, CircularProgress } from "@mui/material";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 import { userLogin } from "../../api/auth/user";
+import {isValidUsernameOrEmail} from "../../helper/auth/validation.js";
+import { toast } from "react-toastify";
+import * as Yup from "yup";
 
 const initialstate = {
-  email: "",
+  usernameOrEmail: "",
   password: "",
 };
 
+const validationSchema = Yup.object().shape({
+  usernameOrEmail: Yup.string().required("Username or Email is required"),
+  password: Yup.string().min(5, "Too Short!").required("Required"),
+});
+
 const LoginForm = () => {
-  const [formData, setFormData] = useState(initialstate);
+  // const [formData, setFormData] = useState(initialstate);
+  const navigate = useNavigate();
 
   const mutation = useMutation({
+    // queryKeys: ["login"],
     mutationFn: userLogin,
     onSuccess: async () => {
+      navigate("/")
       toast("logedin Sucessfully", {
         position: "top-center",
       });
     },
+
+    onError : async () => {
+      toast("error while login please try again", {
+        position: "top-center",
+      });
+    },
+
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    mutation.mutate(formData);
-    setFormData(initialstate);
-    redirect("/");
+  // console.log(mutation);
+
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+  // };
+
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    // e.preventDefault();
+    const validUsernameOrEmail = isValidUsernameOrEmail(values.usernameOrEmail);
+    if (validUsernameOrEmail) {
+      mutation.mutate(values);
+    }
+    setSubmitting(false);
+    resetForm()
   };
 
   return (
@@ -55,85 +80,124 @@ const LoginForm = () => {
               alt="woman-with-shopping-bags-looking-camera"
               className="object-fill"
             />
-            <div>
+
+            <div className="py-2">
               <h2 className=" font-playFlair text-center text-3xl font-extrabold text-gray-900">
                 Login to Your Account
               </h2>
             </div>
-            <div className="flex justify-center items-center gap-2  pt-4">
+            <div className="flex justify-center items-center gap-2  py-4">
               <span>Don't have an Account? </span>
-            <Link to="/signup" className="text-md font-semibold px-4  text-indigo-500 hover:text-indigo-700 hover:underline" >Sign Up</Link>
-          </div>
-            <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-              <div className="rounded-md flex flex-col gap-2 shadow-sm -space-y-px">
-                <div>
-                  <label htmlFor="email" className="text-sm text-gray-600">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="appearance-none  relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Email address"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="password" className="text-sm text-gray-600">
-                    Password
-                  </label>
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    required
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Password"
-                  />
-                </div>
-              </div>
+              <Link
+                to="/user/signup"
+                className="text-md font-semibold px-4  text-purple-500 hover:text-purple-700 hover:underline"
+              >
+                Sign Up
+              </Link>
+            </div>
+            <Formik
+              initialValues={initialstate}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+              className="mt-8 space-y-6"
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <div className="rounded-md flex flex-col gap-2 -space-y-px py-4">
+                    <div>
+                      <Field
+                        type="text"
+                        id="usernameOrEmail"
+                        name="usernameOrEmail"
+                        placeholder="Username or email"
+                        required
+                        // value={formData.usernameOrEmail}
+                        // onChange={handleChange}
+                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                      />
+                      <ErrorMessage
+                        name="usernameOrEmail"
+                        placeholder="usernameOrEmail"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    name="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  />
-                  <label
-                    htmlFor="remember-me"
-                    className="ml-2 block text-sm text-gray-900"
-                  >
-                    Remember me
-                  </label>
-                </div>
+                    <div>
+                      <Field
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        // value={formData.password}
+                        // onChange={handleChange}
+                        className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
+                        placeholder="Password"
+                      />
 
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  Sign In
-                </button>
-              </div>
-            </form>
+                      <ErrorMessage
+                        name="password"
+                        component="div"
+                        className="text-red-500"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="py-6 flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Field
+                        id="remember-me"
+                        name="remember-me"
+                        type="checkbox"
+                        className="h-4 w-4 rounded  bg-purple-100   dark:focus:ring-purple-600 dark:ring-offset-purple-800 focus:ring-2 dark:bg-purple-700 dark:border-purple-600"
+                      />
+                      <label
+                        htmlFor="remember-me"
+                        className="ml-2 block text-sm text-gray-900"
+                      >
+                        Remember me
+                      </label>
+                    </div>
+
+                    <div className="text-sm">
+                      <Link
+                        to="/user/forget-password"
+                        className="font-medium text-purple-600 hover:text-purple-500"
+                      >
+                        Forgot your password?
+                      </Link>
+                    </div>
+                  </div>
+                  <div>
+                    <Button
+                      sx={{
+                        backgroundColor: "#9f7aea",
+                        color: "white",
+                        fontSize: "medium",
+                        fontWeight: "semibold",
+                        "&:hover": {
+                          backgroundColor: "#6b46c1",
+                        },
+                      }}
+                      type="submit"
+                      className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <CircularProgress
+                          sx={{
+                            color: "white",
+                          }}
+                        />
+                      ) : (
+                        "Sign In"
+                      )}
+                    </Button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
           </div>
         </div>
       </div>

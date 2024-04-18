@@ -62,10 +62,17 @@ function validateFullName(value) {
     return error;
   }
 
+  const isValidUsernameOrEmail = (value) => {
+    const usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return usernameRegex.test(value) || emailRegex.test(value);
+  };
+
 export {
     validateUsername,
     validateFullName,
     validateEmail,
     validatePassword,
-    validateConfirmPassword
+    validateConfirmPassword,
+    isValidUsernameOrEmail
 }

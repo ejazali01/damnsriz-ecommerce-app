@@ -22,7 +22,7 @@ const HomeFooter = () => {
               </h2>
               <nav className="list-none mb-10">
                 <li>
-                  <Link to="/login" className="text-gray-600 hover:text-gray-800">Login</Link>
+                  <Link to="/user/login" className="text-gray-600 hover:text-gray-800">Login</Link>
                 </li>
                 <li>
                   <Link to="" className="text-gray-600 hover:text-gray-800">Second Link</Link>

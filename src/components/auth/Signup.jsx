@@ -12,7 +12,7 @@ const initialstate = {
   username: "",
   email: "",
   password: "",
-  confirmPassword:"",
+  confirmPassword: "",
 };
 
 const validationSchema = Yup.object().shape({
@@ -39,14 +39,14 @@ const Signup = () => {
     onSuccess: () => {
       toast.success("created sucessfully");
     },
-    onMutate : () => {
-      return <CircularProgress />
-    }
+    onMutate: () => {
+      return <CircularProgress />;
+    },
   });
 
-  const handleSubmit = (values, {setSubmitting ,resetForm }) => {
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
     const { fullName, username, email, password } = values;
-    mutation.mutate({fullName, username, email, password})
+    mutation.mutate({ fullName, username, email, password });
     setSubmitting(false);
     resetForm();
   };
@@ -68,8 +68,13 @@ const Signup = () => {
 
         <div className="flex justify-center items-center gap-1 py-2 pb-8">
           <span>Already have an Account? </span>
-            <Link to="/login" className="text-md  font-semibold px-4 text-indigo-500 hover:text-indigo-700 hover:underline" >Login</Link>
-          </div>
+          <Link
+            to="/login"
+            className="text-md  font-semibold px-4 text-indigo-500 hover:text-indigo-700 hover:underline"
+          >
+            Login
+          </Link>
+        </div>
 
         <Formik
           initialValues={initialstate}
@@ -162,12 +167,29 @@ const Signup = () => {
 
               {/* Submit Button */}
               <Button
+                sx={{
+                  backgroundColor: "#9f7aea",
+                  color: "white",
+                  fontSize: "medium",
+                  fontWeight: "semibold",
+                  "&:hover": {
+                    backgroundColor: "#6b46c1",
+                  },
+                }}
                 type="submit"
                 variant="contained"
                 className="w-full bg-purple-500 text-white rounded-md py-2 hover:bg-purple-700 transition-colors duration-300"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? <CircularProgress /> : "Sign Up"}
+                {isSubmitting ? (
+                  <CircularProgress
+                    sx={{
+                      color: "white",
+                    }}
+                  />
+                ) : (
+                  "Sign Up"
+                )}
               </Button>
             </Form>
           )}
