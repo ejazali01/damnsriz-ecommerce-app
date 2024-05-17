@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080/api/v1"
+axios.defaults.baseURL = "https://damnsruz-backend-1.onrender.com/api/v1"
 
 // login user 
 const userLogin = async (formData) => {
