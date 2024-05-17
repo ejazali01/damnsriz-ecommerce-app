@@ -8,6 +8,10 @@ export default {
     extend: {
       fontFamily : {
         "playFlair" : ["Playfair Display", "serif"]
+      },
+      animation: {
+        'spin-slow': 'spin 3s linear infinite',
+        'spin-color': '#7B1FA2'
       }
     },
   },

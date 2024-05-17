@@ -3,7 +3,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { FaBarsStaggered } from "react-icons/fa6";
 import DrawerContent from "./mobile/DrawerContent";
 
-const Drawer = ({ handleDrawer, isDrawerOpen }) => {
+const Drawer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const drawerRef = useRef(null);
 
@@ -25,16 +25,16 @@ const Drawer = ({ handleDrawer, isDrawerOpen }) => {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden bg-purple-500 w-16  h-14  px-2  text-xl  cursor-pointer"
+        className="md:hidden bg-purple-500 w-16  h-14  px-2  text-xl  cursor-pointer "
       >
         {isOpen ? (
-          <RiCloseLine className="md:hidden  text-white  text-2xl hover:scale-95 cursor-pointer" />
+          <RiCloseLine className="md:hidden  text-2xl hover:scale-95 cursor-pointer " />
         ) : (
           <FaBarsStaggered className="md:hidden  text-white  text-2xl hover:scale-95 cursor-pointer" />
         )}
       </button>
 
-      {isOpen && <DrawerContent drawerRef={drawerRef} />}
+      {isOpen && <DrawerContent isOpen={isOpen} setIsOpen={setIsOpen} drawerRef={drawerRef} />}
     </>
   );
 };

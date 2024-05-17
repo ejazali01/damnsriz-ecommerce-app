@@ -1,0 +1,67 @@
+ <svg
+              className="animate-spin h-5 w-5 mr-3 text-purple-700"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 4.418 3.582 8 8 8 12a8 8 0 018-8V0C5.373"
+              ></path>
+            </svg>
+
+
+only persiist single state (currentstate)
+
+   transforms: [
+    // Custom transform to only persist currentUser from users slice
+    {
+      key: 'users',
+      transform: (state) => ({
+        currentUser: state.currentUser,
+      }),
+    },
+  ],
+
+
+
+   // check user is admin or not 
+  const currentUser = useSelector((state) => state?.users);
+
+
+
+  
+        // Delete uploaded images from Cloudinary if an error occurred during product creation
+        try {
+            if (uploadedThumbnail) {
+                const thumbnailPublicId = await extractPublicId(uploadedThumbnail);
+                if (thumbnailPublicId) {
+                    const thumbnailDeleted = await deleteFromCloudianary(folderPath, thumbnailPublicId);
+                    console.log('Thumbnail deleted from Cloudinary:', thumbnailDeleted);
+                }
+            }
+
+            if (uploadedImages.length > 0) {
+                const imagesPublicIds = await Promise.all(
+                    uploadedImages.map(async (imageUrl) => {
+                        const publicId = await extractPublicId(imageUrl);
+                        if (publicId) {
+                            const imageDeleted = await deleteFromCloudianary(folderPath, publicId);
+                            console.log('Image deleted from Cloudinary:', imageDeleted);
+                        }
+                    })
+                );
+                console.log('Images deleted from Cloudinary:', imagesPublicIds);
+            }
+
+        } catch (deleteErr) {
+            console.error('Error deleting images from Cloudinary:', deleteErr.message);
+        }

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { validateEmail } from "../../helper/auth/validation";
 import { useMutation } from "react-query";
 import { forgetPasswordOtp } from "../../api/auth/user";
-import { toast } from "react-toastify";
+import toast from 'react-hot-toast';
 import * as Yup from "yup";
 
 const initialstate = {
@@ -23,8 +23,8 @@ const ForgetPasswordForm = () => {
     // queryKey:["forgetPassword"],
     mutationFn: forgetPasswordOtp,
     onSuccess: () => {
-      navigate("verify");
       toast.success("Otp send to you email");
+      navigate("verify");
     },
   });
 
@@ -39,8 +39,8 @@ const ForgetPasswordForm = () => {
 
   return (
     <>
-      <div className="min-h-screen p-4">
-      <div className=" p-4 border shadow-lg rounded-lg ">
+      <div className="min-h-screen flex flex-col  items-center p-4 md:pt-4">
+      <div className="w-full sm:w-3/5 md:w-1/2 lg:w-2/6 xl:w-3/12 p-4 border shadow-lg rounded-lg ">
         <div className="flex flex-col gap-4 ">
           <div className="flex flex-col justify-center items-center gap-4">
             <h1 className="text-3xl py-2  text-center font-semibold">
@@ -66,7 +66,7 @@ const ForgetPasswordForm = () => {
                     <Field
                       type="email"
                       id="email"
-                      placeholder="email "
+                      placeholder="Please enter your email "
                       name="email"
                       autoComplete="off"
                       required
@@ -77,8 +77,8 @@ const ForgetPasswordForm = () => {
                       component="div"
                       className="text-red-500"
                     />
+                    {ErrorMessage && <div className="py-2 text-sm px-1 text-gray-500">Try after 1 mins</div>}
 
-                   {ErrorMessage && <div className="py-2 text-sm text-gray-500">1 mins</div>}
                   </div>
                   <div>
                     <Button
@@ -115,16 +115,16 @@ const ForgetPasswordForm = () => {
         <div className="py-4 pt-6">
           <h1 className="text-semibold ">Has your email address changed?</h1>
           <div>
-            <h3 className="text-sm py-2 text-gray-600 ">
+            <h3 className="text-sm lg:text-xs py-2 text-gray-600 ">
               If you no longer use the e-mail address associated with your
               Damnsruz account, you may contact
               <Link
                 className="text-purple-500 font-semibold px-2 underline underline-offset-4 hover:text-purple-700 hover:underline"
                 to="/help/customers"
               >
-                {" "}
+                
                 Customer Service
-              </Link>{" "}
+              </Link>
               for help restoring access to your account.
             </h3>
           </div>

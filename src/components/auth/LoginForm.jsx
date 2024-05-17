@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { useMutation } from "react-query";
-import { Link, useNavigate } from "react-router-dom";
-import { Button, CircularProgress } from "@mui/material";
+import { isValidUsernameOrEmail } from "../../helper/auth/validation.js";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Button, CircularProgress } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { userLogin } from "../../api/auth/user";
-import {isValidUsernameOrEmail} from "../../helper/auth/validation.js";
-import { toast } from "react-toastify";
+import { useMutation } from "react-query";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { setCurrentUserdetails } from "../../redux/reducers/user/userSlice.js";
 
 const initialstate = {
   usernameOrEmail: "",
@@ -19,50 +21,39 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoginForm = () => {
-  // const [formData, setFormData] = useState(initialstate);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const mutation = useMutation({
-    // queryKeys: ["login"],
+    mutationKey: ["login"],
     mutationFn: userLogin,
-    onSuccess: async () => {
-      navigate("/")
-      toast("logedin Sucessfully", {
-        position: "top-center",
-      });
+    onSuccess: async (data) => {
+      if (data?.data?.data?.user?.role == "admin") {
+        dispatch(setCurrentUserdetails(data?.data?.data?.user));
+        navigate("/admin-dashboard/dashboard");
+      } else {
+        dispatch(setCurrentUserdetails(data?.data?.data?.user));
+        navigate("/");
+      }
+      toast.success(data?.data?.message);
     },
 
-    onError : async () => {
-      toast("error while login please try again", {
-        position: "top-center",
-      });
+    onError: async (error) => {
+      toast.error(error?.response?.statusText);
     },
-
   });
 
-
-  // console.log(mutation);
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData({
-  //     ...formData,
-  //     [name]: value,
-  //   });
-  // };
-
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // e.preventDefault();
     const validUsernameOrEmail = isValidUsernameOrEmail(values.usernameOrEmail);
     if (validUsernameOrEmail) {
       mutation.mutate(values);
     }
     setSubmitting(false);
-    resetForm()
+    resetForm();
   };
 
   return (
-    <div className="relative w-full min-h-screen  md:bg-sky-100">
+    <div className="relative w-full max-w-full min-h-screen  md:bg-sky-100">
       <div className=" hidden md:block ">
         <div className="absolute   w-3/5 bg-purple-400   h-[600px] left-0 bottom-0 rounded-tr-full  ">
           <h1 className="font-playFlair text-8xl font-semibold pl-60 mt-20">
@@ -73,8 +64,8 @@ const LoginForm = () => {
       </div>
 
       <div className="absolute md:right-40 md:max-w-lg bg-gray-100 py-10 px-4 sm:px-6 lg:px-8">
-        <div className="w-full  flex justify-center items-center">
-          <div className="sm:w-3/5  md:w-3/4 space-t-8">
+        <div className="w-full max-w-full  flex justify-center items-center">
+          <div className="w-full sm:max-w-3/5  md:w-3/4 space-t-8">
             <img
               src="../../../login/woman-with-shopping-bags-looking-camera.jpg"
               alt="woman-with-shopping-bags-looking-camera"
@@ -111,8 +102,6 @@ const LoginForm = () => {
                         name="usernameOrEmail"
                         placeholder="Username or email"
                         required
-                        // value={formData.usernameOrEmail}
-                        // onChange={handleChange}
                         className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                       />
                       <ErrorMessage
@@ -130,8 +119,6 @@ const LoginForm = () => {
                         type="password"
                         autoComplete="current-password"
                         required
-                        // value={formData.password}
-                        // onChange={handleChange}
                         className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-purple-500 focus:border-purple-500 focus:z-10 sm:text-sm"
                         placeholder="Password"
                       />
@@ -182,17 +169,16 @@ const LoginForm = () => {
                       }}
                       type="submit"
                       className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      disabled={isSubmitting}
+                      disabled={mutation.isPending}
                     >
-                      {isSubmitting ? (
+                      {mutation.isPending && (
                         <CircularProgress
                           sx={{
                             color: "white",
                           }}
                         />
-                      ) : (
-                        "Sign In"
                       )}
+                      Sign In
                     </Button>
                   </div>
                 </Form>

@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import ProductCarousel from "./ProductCarousel";
 import slugify from "slugify";
 import { FaRegHeart } from "react-icons/fa";
+// import { useSelector } from "react-redux";
 
-const ProductCard = ({ product }) => {
+const ProductCard = ( {product}) => {
+
   const [ishover, setIsHover] = useState(null);
 
   const handleMouseEnter = () => {
@@ -32,7 +34,7 @@ const ProductCard = ({ product }) => {
         className="relative"
       >
         {ishover ? (
-          <div className="relative shadow-md top-0 left-0">
+          <div className="relative shadow-md top-0 left-0 ">
             <div
               className="border md:border-none  "
               //  className="w-1/2  lg:w-[19%] md:w-1/2 border  md:m-1 md:my-2 p-2 "
@@ -46,15 +48,18 @@ const ProductCard = ({ product }) => {
                 <ProductCarousel product={product} />
               </Link>
 
-              <div className="absolute  w-full  -bottom-24 p-2 -mt-4 ">
-                <Link to="" className="flex justify-center items-center focus:border-purple-500 hover:border-purple-500 gap-3 text-gray-900 text-sm border py-1 px-3 rounded-sm  font-normal tracking-widest title-font mb-1">
+              <div className=" w-full  -bottom-24 p-2 -mt-4 ">
+                <Link
+                  to=""
+                  className="flex justify-center items-center focus:border-purple-500 hover:border-purple-500 gap-3 text-gray-900 text-sm border py-1 px-3 rounded-sm  font-normal tracking-widest title-font mb-1"
+                >
                   <FaRegHeart className="text-md font-semibold" />
                   <span className="">Wishlist</span>
                 </Link>
                 <h2 className="text-black title-font text-sm font-normal ">
                   {wordCount(product.title, 5)}
                 </h2>
-                <p className="mt-1 font-semibold">{`$${product.price}`}</p>
+                <p className="mt-1 font-semibold">{`$${product.priceAfterDiscount}`}</p>
               </div>
             </div>
           </div>
@@ -79,12 +84,12 @@ const ProductCard = ({ product }) => {
             </Link>
             <div className="p-2 ">
               <h3 className="text-gray-900 text-xs font-semibold tracking-widest title-font mb-1">
-                {product.brand.toUpperCase()}
+                {product.brand}
               </h3>
               <h2 className="text-black title-font text-sm font-normal ">
                 {wordCount(product.title, 5)}
               </h2>
-              <p className="mt-1 font-semibold">{`$${product.price}`}</p>
+              <p className="mt-1 font-semibold">{`$${product.priceAfterDiscount}`}</p>
             </div>
           </div>
         )}

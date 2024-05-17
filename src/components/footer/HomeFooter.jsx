@@ -25,7 +25,7 @@ const HomeFooter = () => {
                   <Link to="/user/login" className="text-gray-600 hover:text-gray-800">Login</Link>
                 </li>
                 <li>
-                  <Link to="" className="text-gray-600 hover:text-gray-800">Second Link</Link>
+                  <Link to="/admin-dashboard" className="text-gray-600 hover:text-gray-800">Dashboard</Link>
                 </li>
                 <li>
                   <Link to="" className="text-gray-600 hover:text-gray-800">Third Link</Link>

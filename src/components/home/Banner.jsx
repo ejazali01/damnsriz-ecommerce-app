@@ -6,7 +6,7 @@ const Banner = () => {
      {/* <!-- Hero Section with Image --> */}
     <div className="relative h-screen flex items-center justify-center">
         {/* <!-- Image --> */}
-        <img src="https://source.unsplash.com/1600x900/?fashion" alt="Fashion Banner" className="absolute inset-0 object-cover w-full h-full" />
+        <img src="../../../login/laughter-in-the-sun.jpg" alt="Fashion Banner" className="absolute inset-0 object-cover w-full h-full" />
         
         {/* <!-- Overlay --> */}
         <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">

@@ -10,7 +10,7 @@ import { IoIosSearch } from "react-icons/io";
 import Badge from "@mui/material/Badge";
 import { styled } from "@mui/material/styles";
 import Drawer from "./Drawer";
-import Test from "../home/Test";
+
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(null);
@@ -139,7 +139,7 @@ const Navbar = () => {
 
             {/* searchbar */}
 
-            <div className=" lg:w-[450px] ">
+            <div className=" hidden lg:block lg:w-[450px] ">
               <SearchBar />
             </div>
 
@@ -158,15 +158,15 @@ const Navbar = () => {
 
           {/* cart wishlist & authentication */}
           <div className="relative mr-4 md:mr-0 flex items-center justify-end md:pl-20 gap-2 font-semibold">
-            <NavLink to="" className="md:hidden ">
+            <NavLink to="" className="lg:hidden ">
               <IoIosSearch className=" text-2xl font-semibold" />
             </NavLink>
 
             <NavLink
               onMouseEnter={() => handleMouseEnter(null, "PROFILE")}
               onMouseLeave={handleMouseLeave}
-              to="/user-profile"
-              className=" hidden md:mr-5 p-2 md:flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
+              to="/my/profile"
+              className=" hidden md:mr-5 cursor-text p-2 md:flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
             >
               <FaRegUser className="text-xl font-semibold" />
               <span className="hidden md:block font-normal text-xs">
@@ -190,7 +190,7 @@ const Navbar = () => {
             </NavLink>
 
             <NavLink
-              to="/cart"
+              to="checkout/cart"
               className="md:mr-5 p-2 flex flex-col justify-center items-center hover:text-gray-900 font-semibold"
             >
               <StyledBadge badgeContent={4} color="secondary">

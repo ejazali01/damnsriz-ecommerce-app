@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
+import React from "react";
+import toast from 'react-hot-toast';
 import { Button, CircularProgress } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -25,7 +25,7 @@ const validationSchema = Yup.object().shape({
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  email: Yup.string().email("Invalid email").required("Required"),
+  email: Yup.string().email("must be a email").required("Required"),
   password: Yup.string().min(5, "Too Short!").required("Required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
@@ -33,7 +33,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup = () => {
-  const [formData, setFormData] = useState(initialstate);
+  // const [formData, setFormData] = useState(initialstate);
   const mutation = useMutation({
     mutationFn: registerUser,
     onSuccess: () => {
@@ -41,6 +41,9 @@ const Signup = () => {
     },
     onMutate: () => {
       return <CircularProgress />;
+    },
+    onError : () => {
+      toast.error(error);
     },
   });
 
