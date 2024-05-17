@@ -11,7 +11,7 @@ import { useQuery } from "react-query";
 const AllUsersData = () => {
   // fetching all users data from redux store to showing the data
   const allUsersDetails = useSelector((state) => state?.allUsers);
-
+  
   const [togleAction, setTogleAction] = useState(false);
   const dropdownRef = useRef(null);
 

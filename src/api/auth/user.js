@@ -1,5 +1,5 @@
 import axios from "axios";
-
+// https://damnsruz-backend-1.onrender.com
 axios.defaults.baseURL = "https://damnsruz-backend-1.onrender.com/api/v1"
 
 // login user 
@@ -16,7 +16,7 @@ const getUser = async () => {
 
 // get All Users 
 const getAllUsers = async () => {
-    const response = await axios.get("/users", { withCredentials: true })
+    const response = await axios.get("/users/", { withCredentials: true })
     return response.data;
 }
 

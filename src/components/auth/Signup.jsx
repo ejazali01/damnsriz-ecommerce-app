@@ -72,7 +72,7 @@ const Signup = () => {
         <div className="flex justify-center items-center gap-1 py-2 pb-8">
           <span>Already have an Account? </span>
           <Link
-            to="/login"
+            to="/user/login"
             className="text-md  font-semibold px-4 text-indigo-500 hover:text-indigo-700 hover:underline"
           >
             Login
