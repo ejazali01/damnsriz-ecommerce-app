@@ -1,6 +1,7 @@
 import axios from "axios";
 // https://damnsruz-backend-1.onrender.com
-axios.defaults.baseURL = "https://damnsruz-backend-1.onrender.com/api/v1"
+const BASE_URL = "https://damnsruz-backend-1.onrender.com/api/v1"
+axios.defaults.baseURL = BASE_URL
 
 // login user 
 const userLogin = async (formData) => {

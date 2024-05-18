@@ -51,7 +51,7 @@ const UserRoleEdit = ({ userId, initialRole }) => {
     },
   });
 
-  if (userRoleMutation.isPending) {
+  if (userRoleMutation?.isPending) {
     toast.loading("changing...");
   }
 

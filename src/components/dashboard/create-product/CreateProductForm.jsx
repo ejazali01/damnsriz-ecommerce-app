@@ -102,8 +102,10 @@ const CreateProductForm = () => {
         formData.append(`images`, image);
       });
 
-      if (currentUser.isAdmin) {
+      if (currentUser?.isAdmin) {
         await mutation.mutateAsync(formData);
+      }else{
+        toast.error("UnAuthorized user");
       }
     } catch (error) {
       toast.error(error || "Error while creating product");

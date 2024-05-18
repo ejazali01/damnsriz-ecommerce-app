@@ -27,8 +27,8 @@ const AllUsersData = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []); // Empty dependency array ensures this effect runs only once
-
+  }, []); 
+  
   const toggleAction = () => {
     setTogleAction(!togleAction);
   };

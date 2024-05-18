@@ -4,7 +4,7 @@ import axios from "axios";
 const config = {headers : {'Content-Type': 'multipart/form-data'}};
 
 const createProduct = async (formData) => {
-    const response = await axios.post("/products/create", formData,config ,{ withCredentials: true });
+    const response = await axios.post("/products/create", formData, { withCredentials: true, config });
     return response.data;
 }
 

@@ -13,7 +13,6 @@ export const allUsersSlice = createSlice({
     setAllUsersdetails: (state, action) => {
       state.allUsers = action.payload;
     },
-
   },
 })
 

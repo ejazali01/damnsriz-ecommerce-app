@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import toast from "react-hot-toast";
 
 
 const initialState = {
@@ -46,13 +47,11 @@ export const productCategorySlice = createSlice({
     },
 
     removeCategory: (state, action) => {
-  
       const categoryIdToDelete = action.payload;
       if (state.categories.data) {
         state.categories.data = recursivelyDeleteCategory(state.categories.data, categoryIdToDelete);
-
       } else {
-        console.error("Error: state.categories is not an array", state.categories?.data);
+        toast.error("Error: state.categories is not an array", state.categories?.data);
       }
 
     }

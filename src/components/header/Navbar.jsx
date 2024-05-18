@@ -60,9 +60,9 @@ const Navbar = () => {
         </div>
 
         {/* ----------------------------******both*****--------------------------------------- */}
-        <div className=" container mx-auto  md:flex flex-wrap  flex-col md:flex-row  items-center">
+        <div className=" container mx-auto  md:flex flex-wrap  flex-col md:flex-row justify-evenly items-center">
           {/* pages */}
-          <div className="relative md:w-2/3 hidden  md:flex flex-wrap  flex-col md:flex-row items-center">
+          <div className="relative max-w-md  md:max-w-screen-lg xl:max-w-screen-lg hidden  md:flex flex-wrap  flex-col md:flex-row items-center">
             <nav className="md:mr-auto md:ml-4  md:pl-4 md:border-l md:border-gray-400	flex gap-2 flex-wrap items-center text-base justify-center">
               <NavLink
                 onMouseEnter={() => handleMouseEnter("MEN")}
@@ -139,7 +139,7 @@ const Navbar = () => {
 
             {/* searchbar */}
 
-            <div className=" hidden lg:block lg:w-[450px] ">
+            <div className=" hidden xl:block lg:w-[450px] font-semibold ">
               <SearchBar />
             </div>
 
@@ -157,9 +157,9 @@ const Navbar = () => {
           {/* ----------------------------***********--------------------------------------- */}
 
           {/* cart wishlist & authentication */}
-          <div className="relative mr-4 md:mr-0 flex items-center justify-end md:pl-20 gap-2 font-semibold">
-            <NavLink to="" className="lg:hidden ">
-              <IoIosSearch className=" text-2xl font-semibold" />
+          <div className="relative mr-4 md:mr-0 flex items-center justify-end md:pl-8 gap-2 font-semibold">
+            <NavLink to="" className="xl:hidden font-extrabold text-xl ">
+              <IoIosSearch className=" text-2xl font-extrabold" />
             </NavLink>
 
             <NavLink

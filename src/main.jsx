@@ -21,8 +21,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <PersistGate loading={null} persistor={persistor}>
       <QueryClientProvider client={queryClient}>
         <App />
-        <Toaster />
       </QueryClientProvider>
     </PersistGate>
+    <Toaster />
   </Provider>
 );
